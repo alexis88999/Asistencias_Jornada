@@ -27,6 +27,9 @@
       align-items: center;
       min-height: 100vh;
       padding: 1rem;
+      background-image:
+        radial-gradient(ellipse at 15% 10%, rgba(59, 130, 246, 0.16), transparent 38%),
+        radial-gradient(ellipse at 90% 90%, rgba(34, 197, 94, 0.08), transparent 35%);
     }
 
     .panel {
@@ -37,10 +40,22 @@
       max-width: 540px;
       padding: 2rem;
       box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+      animation: entrada-panel 650ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
     }
 
-    h2 { margin-bottom: 1.5rem; font-size: 1.5rem; text-align: center; }
-    .campo { display: flex; flex-direction: column; margin-bottom: 1rem; gap: 0.4rem; }
+    h2 {
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+      text-align: center;
+      animation: entrada-contenido 500ms 100ms both;
+    }
+    .campo {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1rem;
+      gap: 0.4rem;
+      animation: entrada-contenido 450ms 160ms both;
+    }
     .campo span { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; color: var(--text-muted); }
     
     input[type="text"], select {
@@ -51,8 +66,13 @@
       border-radius: 6px;
       outline: none;
       font-size: 0.95rem;
+      transition: border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
     }
-    input[type="text"]:focus, select:focus { border-color: var(--primary); }
+    input[type="text"]:focus, select:focus {
+      border-color: var(--primary);
+      background-color: #111d33;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.18);
+    }
 
     .fila { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
     @media (max-width: 480px) { .fila { grid-template-columns: 1fr; } }
@@ -64,6 +84,7 @@
       color: var(--primary);
       border-bottom: 1px solid var(--border);
       padding-bottom: 0.25rem;
+      animation: entrada-contenido 450ms 220ms both;
     }
 
     .opciones {
@@ -84,8 +105,18 @@
       cursor: pointer;
       border: 1px solid transparent;
       user-select: none;
+      transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease;
+      animation: entrada-contenido 400ms both;
     }
-    .opcion-item:hover { border-color: var(--border); }
+    .opcion-item:nth-child(1) { animation-delay: 240ms; }
+    .opcion-item:nth-child(2) { animation-delay: 290ms; }
+    .opcion-item:nth-child(3) { animation-delay: 340ms; }
+    .opcion-item:nth-child(4) { animation-delay: 390ms; }
+    .opcion-item:hover {
+      border-color: var(--primary);
+      background: #1b2b45;
+      transform: translateX(3px);
+    }
     .opcion-item input { accent-color: var(--primary); cursor: pointer; }
 
     .btn {
@@ -97,10 +128,16 @@
       border-radius: 6px;
       font-weight: 700;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: background 180ms ease, transform 180ms ease, box-shadow 180ms ease;
       margin-top: 1rem;
+      animation: entrada-contenido 450ms 400ms both;
     }
-    .btn:hover:not(:disabled) { background: var(--primary-hover); }
+    .btn:hover:not(:disabled) {
+      background: var(--primary-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 7px 18px rgba(37, 99, 235, 0.28);
+    }
+    .btn:active:not(:disabled) { transform: translateY(0) scale(0.99); }
     .btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
     #mensaje {
@@ -111,8 +148,33 @@
       text-align: center;
       display: none;
     }
-    #mensaje.error { display: block; background: rgba(239, 68, 68, 0.15); color: var(--error); border: 1px solid var(--error); }
-    #mensaje.success { display: block; background: rgba(34, 197, 94, 0.15); color: var(--success); border: 1px solid var(--success); }
+    #mensaje.error, #mensaje.success {
+      display: block;
+      animation: entrada-mensaje 220ms ease-out both;
+    }
+    #mensaje.error { background: rgba(239, 68, 68, 0.15); color: var(--error); border: 1px solid var(--error); }
+    #mensaje.success { background: rgba(34, 197, 94, 0.15); color: var(--success); border: 1px solid var(--success); }
+
+    @keyframes entrada-panel {
+      from { opacity: 0; transform: translateY(18px) scale(0.985); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes entrada-contenido {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes entrada-mensaje {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
   </style>
 </head>
 <body>
