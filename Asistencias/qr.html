@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Código QR de Asistencia</title>
+  <style>
+    body {
+      background: #0f172a;
+      color: #f8fafc;
+      font-family: system-ui, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      gap: 1rem;
+    }
+    .qr-container {
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    img { max-width: 300px; height: auto; }
+    p { color: #94a3b8; font-size: 0.95rem; }
+  </style>
+</head>
+<body>
+  <h2>Escanea para registrar tu asistencia</h2>
+  <div class="qr-container">
+    <img src="/api/qr.svg" alt="Código QR de Asistencia" />
+  </div>
+  <p id="url-label">Cargando enlace...</p>
+
+  <script>
+    fetch('/api/config')
+      .then(r => r.json())
+      .then(cfg => {
+        const label = document.getElementById('url-label');
+        if (cfg.mobileUrl) {
+          label.textContent = cfg.mobileUrl;
+        } else {
+          label.textContent = 'Configura PUBLIC_URL en las variables de entorno para generar el enlace completo.';
+        }
+      });
+  </script>
+</body>
+</html>
