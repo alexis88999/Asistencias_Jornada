@@ -37,6 +37,8 @@
       background-attachment: fixed;
       color: var(--text);
       min-height: 100vh;
+      display: flex;
+      flex-direction: column;
       overflow-x: hidden;
       position: relative;
     }
@@ -120,6 +122,8 @@
       position: relative;
       z-index: 1;
       max-width: 520px;
+      width: 100%;
+      flex: 1;
       margin: 0 auto;
       padding: 1.75rem 1.25rem 3rem;
     }
@@ -735,6 +739,47 @@
     th, td { padding: 0.75rem 0.9rem; border-bottom: 1px solid var(--border-dim); }
     th { background: rgba(0, 229, 255, 0.08); color: var(--cyan); font-family: 'Chakra Petch', sans-serif; text-transform: uppercase; font-size: 0.75rem; }
     .btn-del { background: rgba(255,77,109,0.15); color: #ff8fa3; border: 1px solid rgba(255,77,109,0.4); padding: 0.3rem 0.6rem; cursor: pointer; font-size: 0.75rem; }
+
+    .site-footer {
+      position: relative;
+      z-index: 1;
+      width: calc(100% - 2.5rem);
+      max-width: 1020px;
+      margin: 0 auto 1.25rem;
+    }
+    .footer-message {
+      padding: 0.65rem 1rem;
+      text-align: center;
+    }
+    .footer-message-label {
+      display: block;
+      margin-bottom: 0.35rem;
+      color: rgba(185, 199, 200, 0.282);
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      background: linear-gradient(100deg, currentColor 0%, currentColor 38%, rgba(0, 229, 255, 0.75) 50%, currentColor 62%, currentColor 100%);
+      background-size: 260% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: footerTextSweep 5s 1s linear infinite;
+    }
+    .footer-message p {
+      color: rgba(199, 202, 205, 0.42);
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: clamp(0.9rem, 3vw, 1.05rem);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      background: linear-gradient(100deg, currentColor 0%, currentColor 38%, rgba(0, 229, 255, 0.82) 50%, currentColor 62%, currentColor 100%);
+      background-size: 260% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: footerTextSweep 5s 1s linear infinite;
+    }
+    @keyframes footerTextSweep { from { background-position: 130% 0; } to { background-position: -130% 0; } }
   
     /* ===== Mejoras visuales ===== */
     ::selection { background: var(--cyan); color: #031026; }
@@ -1171,6 +1216,13 @@
     </section>
   </main>
 
+  <footer class="site-footer">
+    <div class="footer-message">
+      <span class="footer-message-label">SYSTEM MESSAGE // LSC</span>
+      <p>Sistemas computacionales: 404 limites not found</p>
+    </div>
+  </footer>
+
   <!-- OVERLAY MISSION COMPLETE -->
   <div class="overlay-exito" id="overlay-exito">
     <div class="overlay-banda">
@@ -1186,12 +1238,11 @@
   </div>
 
   <script>
-    let catalogoConferencias = [
-      "Ciberseguridad",
-      "Peritaje informático",
-      "Arquitectura de software y patrones de diseño"
-    ];
-    let catalogoTalleres = ["Análisis de Big Data", "Cloud Computing"];
+    let conferenciasPorDia = {
+      Miércoles: ["Ciberseguridad", "Desarrollo Profesional"],
+      Jueves: ["Arquitectura de software y patrones de diseño", "Panel de Egresados"]
+    };
+    let catalogoTalleres = ["Desarrollo Ágil de Apps con .NET MAUI y SQLite"];
 
     let rutaActual = ""; // "CONFERENCIAS" | "TALLERES"
     let diaSeleccionado = "";
@@ -1214,8 +1265,8 @@
         const res = await fetch("/api/opciones");
         if (!res.ok) return;
         const data = await res.json();
-        if (Array.isArray(data.conferencias) && data.conferencias.length) {
-          catalogoConferencias = data.conferencias;
+        if (data.conferenciasPorDia && typeof data.conferenciasPorDia === "object") {
+          conferenciasPorDia = data.conferenciasPorDia;
         }
         if (Array.isArray(data.talleres) && data.talleres.length) {
           catalogoTalleres = data.talleres;
@@ -1233,7 +1284,9 @@
 
       selectActividad.disabled = false;
       selectActividad.add(new Option("Selecciona una actividad", ""));
-      const lista = rutaActual === "CONFERENCIAS" ? catalogoConferencias : catalogoTalleres;
+      const lista = rutaActual === "CONFERENCIAS"
+        ? (conferenciasPorDia[diaSeleccionado] || [])
+        : catalogoTalleres;
       lista.forEach((act) => selectActividad.add(new Option(act, act)));
     }
 

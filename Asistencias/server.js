@@ -21,12 +21,12 @@ const SUPABASE_TABLE_URL = SUPABASE_URL
   ? `${SUPABASE_URL}/rest/v1/asistencias`
   : "";
 
-const CONFERENCIAS = [
-  "Ciberseguridad",
-  "Peritaje informático",
-  "Arquitectura de software y patrones de diseño",
-];
-const TALLERES = ["Análisis de Big Data", "Cloud Computing"];
+const CONFERENCIAS_POR_DIA = {
+  Miércoles: ["Ciberseguridad", "Desarrollo Profesional"],
+  Jueves: ["Arquitectura de software y patrones de diseño", "Panel de Egresados"],
+};
+const CONFERENCIAS = Object.values(CONFERENCIAS_POR_DIA).flat();
+const TALLERES = ["Desarrollo Ágil de Apps con .NET MAUI y SQLite"];
 const DIAS = ["Miércoles", "Jueves"];
 
 async function solicitarSupabase(ruta, opciones = {}) {
@@ -171,7 +171,12 @@ const server = http.createServer(async (req, res) => {
   }
 
   if (req.method === "GET" && url === "/api/opciones") {
-    return responder(res, 200, { conferencias: CONFERENCIAS, talleres: TALLERES, dias: DIAS });
+    return responder(res, 200, {
+      conferencias: CONFERENCIAS,
+      conferenciasPorDia: CONFERENCIAS_POR_DIA,
+      talleres: TALLERES,
+      dias: DIAS,
+    });
   }
 
   if (req.method === "GET" && url === "/api/config") {
@@ -262,6 +267,9 @@ const server = http.createServer(async (req, res) => {
       }
       if (conferencias.length > 0 && !DIAS.includes(diaConferencia)) {
         return responder(res, 400, { error: "Selecciona miércoles o jueves para la conferencia." });
+      }
+      if (conferencias.some((conferencia) => !CONFERENCIAS_POR_DIA[diaConferencia].includes(conferencia))) {
+        return responder(res, 400, { error: "La conferencia seleccionada no corresponde al día elegido." });
       }
       if (talleres.length > 0 && !DIAS.includes(diaTaller)) {
         return responder(res, 400, { error: "Selecciona miércoles o jueves para el taller." });
