@@ -14,6 +14,7 @@ const PUBLIC_URL = (
 ).replace(/\/+$/, "");
 const INDEX_FILE = path.join(__dirname, "index.html");
 const QR_FILE = path.join(__dirname, "qr.html");
+const FAVICON_FILE = path.join(__dirname, "favicon1.png");
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "";
 const SUPABASE_URL = (process.env.SUPABASE_URL || "").replace(/\/+$/, "");
 const SUPABASE_SECRET_KEY = process.env.SUPABASE_SECRET_KEY || "";
@@ -164,6 +165,14 @@ const server = http.createServer(async (req, res) => {
 
   if (req.method === "GET" && (url === "/qr" || url === "/qr.html")) {
     return responder(res, 200, fs.readFileSync(QR_FILE, "utf8"), "text/html; charset=utf-8");
+  }
+
+  if (req.method === "GET" && url === "/favicon1.png") {
+    res.writeHead(200, {
+      "Content-Type": "image/png",
+      "Cache-Control": "public, max-age=86400",
+    });
+    return res.end(fs.readFileSync(FAVICON_FILE));
   }
 
   if (req.method === "GET" && url === "/api/health") {
