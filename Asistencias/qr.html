@@ -3,102 +3,127 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Código QR de Asistencia</title>
+  <title>Jornada de Sistemas | Código QR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Chakra+Petch:ital,wght@0,600;0,700;1,700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      color-scheme: dark;
-      --bg: #0f172a;
-      --card-bg: #1e293b;
-      --border: #334155;
-      --text: #f8fafc;
-      --muted: #94a3b8;
-      --primary: #3b82f6;
-      --cyan: #36e6ff;
-    }
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background:
-        radial-gradient(ellipse at 15% 10%, rgba(59, 130, 246, 0.2), transparent 42%),
-        radial-gradient(ellipse at 90% 90%, rgba(54, 230, 255, 0.1), transparent 38%),
-        var(--bg);
-      color: var(--text);
-      font-family: system-ui, sans-serif;
+      background-color: #040d21;
+      background-image:
+        radial-gradient(circle at 80% 15%, rgba(0, 229, 255, 0.16), transparent 40%),
+        linear-gradient(135deg, #030917 0%, #071b3e 60%, #041028 100%);
+      color: #f0f7ff;
+      font-family: 'Chakra Petch', sans-serif;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-      margin: 0;
-      gap: 1.25rem;
       padding: 1.5rem;
       text-align: center;
     }
-    h2 {
-      max-width: 600px;
-      margin: 0;
-      font-size: clamp(1.5rem, 5vw, 2rem);
-      animation: entrada 550ms 80ms both;
+
+    .tag {
+      color: #00e5ff;
+      font-size: 0.78rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
     }
-    .qr-container {
-      background: #fff;
-      padding: clamp(1rem, 5vw, 1.5rem);
-      border-radius: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.7);
-      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.38), 0 0 0 1px rgba(54, 230, 255, 0.12);
-      display: flex;
-      justify-content: center;
+
+    h1 {
+      font-family: 'Anton', sans-serif;
+      font-style: italic;
+      font-size: 2.6rem;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      text-shadow: 3px 3px 0 rgba(0, 229, 255, 0.25);
+      margin-bottom: 1.5rem;
+    }
+
+    .qr-frame {
+      position: relative;
+      padding: 1.35rem;
+      background: rgba(7, 25, 58, 0.75);
+      border: 1px solid rgba(0, 229, 255, 0.3);
+      margin-bottom: 1.25rem;
+      box-shadow: 0 0 40px rgba(0, 229, 255, 0.15);
+    }
+
+    /* Esquinas estilo escáner del video */
+    .corner {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border-color: #00e5ff;
+      border-style: solid;
+    }
+    .tl { top: -2px; left: -2px; border-width: 3px 0 0 3px; }
+    .tr { top: -2px; right: -2px; border-width: 3px 3px 0 0; }
+    .bl { bottom: -2px; left: -2px; border-width: 0 0 3px 3px; }
+    .br { bottom: -2px; right: -2px; border-width: 0 3px 3px 0; }
+
+    .qr-box {
+      background: #ffffff;
+      padding: 0.85rem;
+      display: inline-block;
+    }
+
+    img { width: 270px; height: 270px; display: block; }
+
+    .status {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      color: #00e5ff;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+    }
+
+    .btn-dl {
+      display: inline-flex;
       align-items: center;
-      animation: entrada 650ms 180ms both;
-      transition: transform 220ms ease, box-shadow 220ms ease;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 310px;
+      background: rgba(4, 15, 38, 0.9);
+      color: #f0f7ff;
+      border: 1px solid rgba(0, 229, 255, 0.4);
+      padding: 0.8rem 1rem;
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: all 0.2s;
     }
-    .qr-container:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 20px 44px rgba(0, 0, 0, 0.42), 0 0 28px rgba(54, 230, 255, 0.2);
-    }
-    img {
-      display: block;
-      width: min(300px, 70vw);
-      height: auto;
-    }
-    p {
-      max-width: min(600px, 90vw);
-      margin: 0;
-      color: var(--muted);
-      font-size: 0.95rem;
-      overflow-wrap: anywhere;
-      animation: entrada 500ms 300ms both;
-    }
-    @keyframes entrada {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
+
+    .btn-dl:hover {
+      background: #00e5ff;
+      color: #031026;
     }
   </style>
 </head>
 <body>
-  <h2>Escanea para registrar tu asistencia</h2>
-  <div class="qr-container">
-    <img src="/api/qr.svg" alt="Código QR de Asistencia" />
-  </div>
-  <p id="url-label">Cargando enlace...</p>
+  <div class="tag">WELCOME TO THE DARK HOUR</div>
+  <h1>JORNADA DE SISTEMAS</h1>
 
-  <script>
-    fetch('/api/config')
-      .then(r => r.json())
-      .then(cfg => {
-        const label = document.getElementById('url-label');
-        if (cfg.mobileUrl) {
-          label.textContent = cfg.mobileUrl;
-        } else {
-          label.textContent = 'Configura PUBLIC_URL en las variables de entorno para generar el enlace completo.';
-        }
-      });
-  </script>
+  <div class="qr-frame">
+    <span class="corner tl"></span>
+    <span class="corner tr"></span>
+    <span class="corner bl"></span>
+    <span class="corner br"></span>
+    <div class="qr-box">
+      <img src="/api/qr.svg" alt="QR Asistencia" />
+    </div>
+  </div>
+
+  <div class="status" id="url-label">QR LISTO / ESCANEA PARA PROBARLO</div>
+  <a href="/api/qr.svg" download="qr-jornada-sistemas.svg" class="btn-dl">
+    <span>DESCARGAR QR</span>
+    <span>↓</span>
+  </a>
 </body>
 </html>
