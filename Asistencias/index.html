@@ -16,6 +16,9 @@
       --cyan: #00e5ff;
       --cyan-glow: rgba(0, 229, 255, 0.28);
       --cyan-border: rgba(0, 229, 255, 0.35);
+      --gold: #d4af37;
+      --gold-glow: rgba(212, 175, 55, 0.35);
+      --gold-soft: rgba(212, 175, 55, 0.18);
       --border-dim: rgba(30, 82, 145, 0.55);
       --text: #f0f7ff;
       --text-muted: #7da0c4;
@@ -77,7 +80,7 @@
     .brand-logo {
       width: 34px;
       height: 34px;
-      background: var(--cyan);
+      background: linear-gradient(135deg, var(--cyan) 0%, #00c4d9 60%, var(--gold) 140%);
       color: #031026;
       font-family: 'Chakra Petch', sans-serif;
       font-weight: 700;
@@ -87,7 +90,8 @@
       justify-content: center;
       line-height: 0.9;
       font-size: 0.95rem;
-      box-shadow: 0 0 12px var(--cyan-glow);
+      box-shadow: 0 0 14px var(--cyan-glow);
+      border-radius: 6px;
     }
 
     .brand-logo small { font-size: 0.55rem; letter-spacing: 0.05em; }
@@ -136,6 +140,20 @@
       color: var(--cyan);
       text-transform: uppercase;
       margin-bottom: 0.3rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .dark-hour-tag::before,
+    .dark-hour-tag::after {
+      content: "";
+      height: 5px;
+      width: 110px;
+      background: linear-gradient(90deg, transparent, var(--gold));
+      opacity: 0.7;
+    }
+    .dark-hour-tag::after {
+      background: linear-gradient(90deg, var(--gold), transparent);
     }
 
     .hero-title {
@@ -146,7 +164,9 @@
       letter-spacing: 0.02em;
       text-transform: uppercase;
       color: #ffffff;
-      text-shadow: 3px 3px 0px rgba(0, 229, 255, 0.25);
+      text-shadow:
+        0 0 28px rgba(0, 229, 255, 0.35),
+        2px 2px 0 rgba(212, 175, 55, 0.18);
       margin-bottom: 0.65rem;
     }
 
@@ -181,93 +201,223 @@
       color: #fff;
     }
 
-    /* Tarjetas de Ruta (Paso 1) */
+    /* Tarjetas de Ruta (Paso 1) - Diseño premium */
     .rutas-grid {
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 1.15rem;
+      margin-top: 0.75rem;
     }
 
     .ruta-card {
       position: relative;
-      background: linear-gradient(135deg, rgba(10, 35, 82, 0.78), rgba(6, 21, 52, 0.9));
-      border: 1px solid var(--border-dim);
-      padding: 1.5rem 1.35rem;
+      background:
+        linear-gradient(145deg, rgba(12, 38, 88, 0.92) 0%, rgba(6, 20, 50, 0.96) 100%);
+      border: 1px solid rgba(0, 229, 255, 0.18);
+      border-radius: 16px;
+      padding: 1.35rem 1.25rem 1.35rem 1.2rem;
       cursor: pointer;
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
       overflow: hidden;
       text-align: left;
       width: 100%;
       color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 1.1rem;
+      box-shadow:
+        0 4px 24px -8px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
     }
 
+    /* Brillo sutil superior */
+    .ruta-card::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0, 229, 255, 0.45), transparent);
+      opacity: 0.6;
+      transition: opacity 0.3s ease;
+    }
+
+    /* Borde degradado animado */
     .ruta-card::before {
       content: "";
       position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 4px;
-      background: var(--cyan);
-      transform: scaleY(0.35);
-      transition: transform 0.25s ease;
+      inset: 0;
+      border-radius: 16px;
+      padding: 1.5px;
+      background: linear-gradient(
+        135deg,
+        rgba(0, 229, 255, 0.55) 0%,
+        rgba(212, 175, 55, 0.35) 40%,
+        rgba(0, 229, 255, 0.15) 70%,
+        transparent 100%
+      );
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0.55;
+      transition: opacity 0.35s ease;
+      pointer-events: none;
     }
 
     .ruta-card:hover {
-      border-color: var(--cyan);
-      transform: translateX(4px);
-      box-shadow: 0 10px 28px -8px rgba(0, 229, 255, 0.25);
+      border-color: rgba(0, 229, 255, 0.4);
+      transform: translateY(-4px) scale(1.01);
+      box-shadow:
+        0 16px 40px -10px rgba(0, 229, 255, 0.32),
+        0 0 0 1px rgba(212, 175, 55, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
     }
 
-    .ruta-card:hover::before { transform: scaleY(1); }
+    .ruta-card:hover::before {
+      opacity: 1;
+    }
 
-    .ruta-letra {
-      position: absolute;
-      top: 0.85rem;
-      right: 1rem;
-      font-family: 'Chakra Petch', sans-serif;
-      font-weight: 700;
-      font-size: 0.85rem;
+    .ruta-card:hover::after {
+      opacity: 1;
+    }
+
+    /* Variante Talleres (toque dorado más fuerte) */
+    .ruta-card[data-ruta="TALLERES"] {
+      border-color: rgba(212, 175, 55, 0.2);
+    }
+
+    .ruta-card[data-ruta="TALLERES"]::before {
+      background: linear-gradient(
+        135deg,
+        rgba(212, 175, 55, 0.5) 0%,
+        rgba(0, 229, 255, 0.25) 45%,
+        rgba(212, 175, 55, 0.15) 75%,
+        transparent 100%
+      );
+    }
+
+    .ruta-card[data-ruta="TALLERES"]::after {
+      background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.5), transparent);
+    }
+
+    .ruta-card[data-ruta="TALLERES"]:hover {
+      border-color: rgba(212, 175, 55, 0.45);
+      box-shadow:
+        0 16px 40px -10px rgba(212, 175, 55, 0.28),
+        0 0 0 1px rgba(0, 229, 255, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    }
+
+    /* Icono */
+    .ruta-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      font-size: 1.4rem;
+      background: linear-gradient(145deg, rgba(0, 229, 255, 0.14), rgba(0, 229, 255, 0.05));
+      border: 1px solid rgba(0, 229, 255, 0.28);
       color: var(--cyan);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 0 0 0 transparent;
+    }
+
+    .ruta-card[data-ruta="TALLERES"] .ruta-icon {
+      background: linear-gradient(145deg, rgba(212, 175, 55, 0.16), rgba(212, 175, 55, 0.05));
+      border-color: rgba(212, 175, 55, 0.35);
+      color: var(--gold);
+    }
+
+    .ruta-card:hover .ruta-icon {
+      transform: scale(1.08) rotate(-3deg);
+      box-shadow: 0 0 20px var(--cyan-glow);
+      border-color: rgba(0, 229, 255, 0.55);
+    }
+
+    .ruta-card[data-ruta="TALLERES"]:hover .ruta-icon {
+      box-shadow: 0 0 20px var(--gold-glow);
+      border-color: rgba(212, 175, 55, 0.6);
+      transform: scale(1.08) rotate(3deg);
+    }
+
+    .ruta-content {
+      flex: 1;
+      min-width: 0;
+      padding-right: 0.25rem;
     }
 
     .ruta-card h3 {
       font-family: 'Anton', 'Chakra Petch', sans-serif;
-      font-size: 1.65rem;
-      letter-spacing: 0.03em;
+      font-size: 1.5rem;
+      letter-spacing: 0.05em;
       font-weight: 400;
-      margin-top: 0.6rem;
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.28rem;
       color: #fff;
+      line-height: 1.05;
+      text-shadow: 0 0 20px rgba(0, 229, 255, 0.15);
+      transition: text-shadow 0.3s ease;
+    }
+
+    .ruta-card[data-ruta="TALLERES"] h3 {
+      text-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
+    }
+
+    .ruta-card:hover h3 {
+      text-shadow: 0 0 24px rgba(0, 229, 255, 0.35);
+    }
+
+    .ruta-card[data-ruta="TALLERES"]:hover h3 {
+      text-shadow: 0 0 24px rgba(212, 175, 55, 0.35);
     }
 
     .ruta-card p {
       font-family: 'Chakra Petch', sans-serif;
-      font-size: 0.75rem;
-      letter-spacing: 0.08em;
+      font-size: 0.8rem;
+      letter-spacing: 0.02em;
       color: var(--text-muted);
-      text-transform: uppercase;
+      line-height: 1.4;
+      text-transform: none;
+      opacity: 0.9;
     }
 
+    /* Flecha */
     .ruta-arrow {
-      position: absolute;
-      right: 1rem;
-      bottom: 1rem;
-      width: 28px;
-      height: 28px;
-      background: rgba(125, 160, 196, 0.2);
-      border: 1px solid var(--border-dim);
-      color: #fff;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(0, 229, 255, 0.1);
+      border: 1px solid rgba(0, 229, 255, 0.28);
+      color: var(--cyan);
       display: grid;
       place-items: center;
-      font-size: 0.85rem;
-      transition: all 0.2s ease;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .ruta-card[data-ruta="TALLERES"] .ruta-arrow {
+      background: rgba(212, 175, 55, 0.1);
+      border-color: rgba(212, 175, 55, 0.32);
+      color: var(--gold);
     }
 
     .ruta-card:hover .ruta-arrow {
       background: var(--cyan);
       color: #031026;
       border-color: var(--cyan);
+      transform: translateX(4px);
+      box-shadow: 0 0 18px var(--cyan-glow);
+    }
+
+    .ruta-card[data-ruta="TALLERES"]:hover .ruta-arrow {
+      background: var(--gold);
+      color: #1a1408;
+      border-color: var(--gold);
+      box-shadow: 0 0 18px var(--gold-glow);
     }
 
     /* Paso 2: Formulario */
@@ -343,7 +493,7 @@
       font-family: inherit;
       outline: none;
       transition: all 0.2s ease;
-      border-radius: 2px;
+      border-radius: 8px;
     }
 
     input[type="text"]:focus, select:focus {
@@ -361,6 +511,7 @@
     .btn-dia {
       background: var(--input-bg);
       border: 1px solid var(--border-dim);
+      border-radius: 8px;
       color: var(--text);
       padding: 0.95rem;
       font-family: 'Chakra Petch', sans-serif;
@@ -377,7 +528,7 @@
     }
 
     .btn-dia.activo {
-      background: var(--cyan);
+      background: linear-gradient(135deg, var(--cyan), #00c4d9);
       color: #031026;
       border-color: var(--cyan);
       box-shadow: 0 0 18px var(--cyan-glow);
@@ -386,9 +537,10 @@
     /* Botón Principal Cyan */
     .btn-submit {
       width: 100%;
-      background: var(--cyan);
+      background: linear-gradient(135deg, var(--cyan) 0%, #00c8dc 70%, #b8972e 160%);
       color: #031026;
       border: none;
+      border-radius: 8px;
       padding: 1rem 1.25rem;
       margin-top: 0.75rem;
       display: flex;
@@ -400,7 +552,7 @@
       letter-spacing: 0.08em;
       text-transform: uppercase;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.25s ease;
       box-shadow: 0 8px 24px -4px var(--cyan-glow);
     }
 
@@ -417,7 +569,7 @@
     .btn-submit-icon {
       width: 24px;
       height: 24px;
-      background: rgba(3, 16, 38, 0.2);
+      background: rgba(4, 15, 38, 0.2);
       display: grid;
       place-items: center;
       font-size: 0.8rem;
@@ -583,14 +735,310 @@
     th, td { padding: 0.75rem 0.9rem; border-bottom: 1px solid var(--border-dim); }
     th { background: rgba(0, 229, 255, 0.08); color: var(--cyan); font-family: 'Chakra Petch', sans-serif; text-transform: uppercase; font-size: 0.75rem; }
     .btn-del { background: rgba(255,77,109,0.15); color: #ff8fa3; border: 1px solid rgba(255,77,109,0.4); padding: 0.3rem 0.6rem; cursor: pointer; font-size: 0.75rem; }
+  
+    /* ===== Mejoras visuales ===== */
+    ::selection { background: var(--cyan); color: #031026; }
+    html { scrollbar-color: #0b3a7a #040d21; scrollbar-width: thin; }
+
+    /* Formas decorativas flotantes */
+    body::after {
+      content: "";
+      position: fixed;
+      top: -140px; right: -150px;
+      width: 380px; height: 380px;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      outline: 1px solid rgba(0, 229, 255, 0.1);
+      outline-offset: 26px;
+      transform: rotate(45deg);
+      animation: spinSlow 60s linear infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+    @keyframes spinSlow { to { transform: rotate(405deg); } }
+
+    /* Barra superior */
+    .topbar::after {
+      content: "";
+      position: absolute;
+      left: 0; right: 0; bottom: -1px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--cyan), var(--gold), transparent);
+      opacity: 0.8;
+    }
+    .brand-logo { animation: logoPulse 3s ease-in-out infinite; transform: skewX(-6deg); }
+    @keyframes logoPulse {
+      0%, 100% { box-shadow: 0 0 10px var(--cyan-glow); }
+      50% { box-shadow: 0 0 22px var(--cyan), 0 0 6px var(--gold-glow); }
+    }
+
+    /* Hero */
+    .hero { position: relative; padding-left: 1.1rem; }
+    .hero::before {
+      content: "";
+      position: absolute;
+      left: 0; top: 0.2rem; bottom: 0.2rem;
+      width: 4px;
+      background: linear-gradient(180deg, var(--cyan), var(--gold));
+      transform: skewX(-12deg);
+      box-shadow: 0 0 14px var(--cyan-glow);
+    }
+    .hero-title { filter: drop-shadow(0 0 18px rgba(0, 229, 255, 0.25)); }
+    .hero-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+    .hero-chips span {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      color: var(--cyan);
+      padding: 0.3rem 0.8rem;
+      background: rgba(0, 229, 255, 0.07);
+      border: 1px solid var(--cyan-border);
+      clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+    }
+    .hero-chips span:nth-child(even) { color: var(--gold); border-color: rgba(212, 175, 55, 0.4); background: var(--gold-soft); }
+
+    /* Tarjetas de ruta */
+    .ruta-card, .ruta-card::before { border-radius: 4px 24px 4px 24px; }
+    .ruta-card { animation: cardIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
+    .ruta-card:nth-child(2) { animation-delay: 0.14s; }
+    @keyframes cardIn { from { opacity: 0; transform: translateX(-24px); } to { opacity: 1; transform: none; } }
+    .ruta-content { position: relative; }
+    .ruta-content::before {
+      content: "01";
+      position: absolute;
+      right: -0.2rem; top: -1.3rem;
+      font-family: 'Anton', sans-serif;
+      font-size: 4.2rem;
+      line-height: 1;
+      color: rgba(255, 255, 255, 0.04);
+      pointer-events: none;
+    }
+    .ruta-card[data-ruta="TALLERES"] .ruta-content::before { content: "02"; }
+    .ruta-card h3 { transition: transform 0.3s ease, text-shadow 0.3s ease; }
+    .ruta-card:hover h3 { transform: translateX(4px); }
+    .ruta-icon { animation: iconGlow 3.2s ease-in-out infinite; }
+    @keyframes iconGlow { 50% { box-shadow: 0 0 16px var(--cyan-glow); } }
+    .ruta-card[data-ruta="TALLERES"] .ruta-icon { animation-name: iconGlowGold; }
+    @keyframes iconGlowGold { 50% { box-shadow: 0 0 16px var(--gold-glow); } }
+
+    /* Encabezado de sección */
+    .section-num {
+      background: var(--cyan);
+      color: #031026;
+      padding: 0.1rem 0.5rem;
+      clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+    }
+    .section-head { border-image: linear-gradient(90deg, var(--cyan), var(--gold) 40%, transparent) 1; }
+
+    /* Formulario */
+    input[type="text"], select { border-left: 3px solid var(--border-dim); }
+    input[type="text"]:focus, select:focus { border-left-color: var(--gold); background-color: rgba(6, 24, 58, 0.95); }
+    input::placeholder { color: #4f6f94; }
+    select {
+      appearance: none;
+      -webkit-appearance: none;
+      padding-right: 2.5rem;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%2300e5ff' stroke-width='2'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+    }
+    select:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-dia { clip-path: polygon(0 0, 100% 0, calc(100% - 12px) 100%, 0 100%); border-radius: 0; }
+    .btn-dia.activo::before { content: "✓ "; }
+    .btn-submit {
+      border-radius: 0;
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%);
+      background: linear-gradient(110deg, #00e5ff 0%, #7df3ff 45%, #00e5ff 55%, #00b8cc 100%);
+      background-size: 220% 100%;
+      animation: shine 3.5s linear infinite;
+    }
+    @keyframes shine { from { background-position: 120% 0; } to { background-position: -100% 0; } }
+    .btn-submit:disabled { animation: none; }
+    .btn-submit-icon { border-radius: 50%; }
+    .foot-note::before { content: "// "; color: var(--cyan); }
+
+    /* Overlay MISSION COMPLETE */
+    .overlay-banda { transform: translateX(-50%) rotate(-8deg) scale(0.9); }
+    .overlay-exito.visible .overlay-banda { transform: translateX(0) rotate(-8deg) scale(1); }
+    .overlay-banda::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(90deg, transparent 0 38px, rgba(0, 229, 255, 0.05) 38px 40px);
+      pointer-events: none;
+    }
+    .overlay-exito.visible .check-box { animation: popIn 0.5s 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+    .overlay-exito.visible .mission-title { animation: fadeSlide 0.5s 0.35s both; }
+    @keyframes popIn { from { transform: scale(0) rotate(-90deg); } to { transform: none; } }
+
+    /* Admin */
+    tbody tr:hover td { background: rgba(0, 229, 255, 0.05); }
+    .btn-del:hover { background: rgba(255, 77, 109, 0.3); }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  
+    /* ===== Animaciones del menu (mas notorias) ===== */
+    .dark-hour-tag { animation: fadeSlide 0.6s 0.05s both, tagPulse 2.4s 1s ease-in-out infinite; }
+    @keyframes tagPulse { 50% { opacity: 0.55; letter-spacing: 0.3em; } }
+    .hero-title {
+      background: linear-gradient(100deg, #fff 0%, #fff 38%, var(--cyan) 50%, #fff 62%, #fff 100%);
+      background-size: 260% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      text-shadow: none;
+      animation: fadeSlide 0.7s 0.15s both, titleSweep 4s 1s linear infinite;
+    }
+    @keyframes titleSweep { from { background-position: 130% 0; } to { background-position: -130% 0; } }
+    .hero-sub { animation: fadeSlide 0.6s 0.35s both; }
+    .hero-chips span { animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+    .hero-chips span:nth-child(1) { animation-delay: 0.5s; }
+    .hero-chips span:nth-child(2) { animation-delay: 0.65s; }
+    .hero-chips span:nth-child(3) { animation-delay: 0.8s; }
+    .topbar-status span { animation: blink 1.1s steps(2, start) infinite; }
+    @keyframes blink { to { opacity: 0.15; } }
+    .hero::before { animation: barGlow 2.5s ease-in-out infinite; }
+    @keyframes barGlow { 50% { box-shadow: 0 0 26px var(--cyan), 0 0 8px var(--gold-glow); } }
+
+    /* Tarjetas: entrada, flotado, destello y hover fuerte */
+    .ruta-card {
+      background:
+        linear-gradient(105deg, transparent 38%, rgba(255, 255, 255, 0.09) 50%, transparent 62%),
+        linear-gradient(145deg, rgba(12, 38, 88, 0.92) 0%, rgba(6, 20, 50, 0.96) 100%);
+      background-size: 260% 100%, 100% 100%;
+      background-repeat: no-repeat;
+      animation: cardIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) backwards,
+                 floatY 4s 0.8s ease-in-out infinite,
+                 cardShine 3.8s 1s linear infinite;
+    }
+    .ruta-card:nth-child(2) {
+      animation-delay: 0.18s, 1.8s, 2.4s;
+    }
+    @keyframes floatY { 50% { translate: 0 -6px; } }
+    @keyframes cardShine {
+      from { background-position: 140% 0, 0 0; }
+      to { background-position: -140% 0, 0 0; }
+    }
+    .ruta-card:hover {
+      transform: translateY(-4px) scale(1.035);
+      border-color: var(--cyan);
+      box-shadow: 0 20px 50px -8px rgba(0, 229, 255, 0.5), 0 0 0 1px rgba(212, 175, 55, 0.3);
+      animation-play-state: running, paused, running;
+    }
+    .ruta-card[data-ruta="TALLERES"]:hover {
+      border-color: var(--gold);
+      box-shadow: 0 20px 50px -8px rgba(212, 175, 55, 0.5), 0 0 0 1px rgba(0, 229, 255, 0.3);
+    }
+    .ruta-card:active { transform: scale(0.98); }
+    .ruta-card:hover h3 { transform: translateX(8px); }
+    .ruta-icon { animation: ping 2.4s ease-out infinite; }
+    .ruta-card[data-ruta="TALLERES"] .ruta-icon { animation-name: ping; }
+    @keyframes ping {
+      0% { box-shadow: 0 0 0 0 currentColor; }
+      70%, 100% { box-shadow: 0 0 0 16px transparent; }
+    }
+    .ruta-card:hover .ruta-icon { animation: iconSpin 0.7s ease, ping 2.4s 0.7s ease-out infinite; }
+    @keyframes iconSpin { from { transform: rotate(-360deg) scale(0.6); } to { transform: scale(1.08); } }
+    .ruta-arrow { animation: nudge 1.3s ease-in-out infinite; }
+    @keyframes nudge { 50% { translate: 7px 0; } }
+    .ruta-card:hover .ruta-arrow { transform: scale(1.15); }
+  
+    /* ===== Fondo animado ===== */
+    body::before { inset: -120px; animation: lineDrift 7s linear infinite; }
+    @keyframes lineDrift { to { translate: -47.1px -67.2px; } }
+    .bg-fx { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+    .bg-fx b { position: absolute; border-radius: 50%; filter: blur(70px); transition: opacity 0.9s ease; }
+    .bg-fx .o1 { width: 380px; height: 380px; left: -120px; top: 18%; background: radial-gradient(circle, rgba(0, 229, 255, 0.34), transparent 70%); animation: orbA 16s ease-in-out infinite alternate; }
+    .bg-fx .o2 { width: 460px; height: 460px; right: -150px; bottom: -80px; background: radial-gradient(circle, rgba(0, 119, 255, 0.42), transparent 70%); animation: orbB 20s ease-in-out infinite alternate; }
+    .bg-fx .o3 { width: 340px; height: 340px; right: 5%; top: 8%; opacity: 0; background: radial-gradient(circle, rgba(212, 175, 55, 0.4), transparent 70%); animation: orbA 14s ease-in-out infinite alternate-reverse; }
+    @keyframes orbA { to { transform: translate(180px, -110px) scale(1.3); } }
+    @keyframes orbB { to { transform: translate(-200px, -90px) scale(1.2); } }
+    body[data-ruta="TALLERES"]:has(#paso-2:not(.oculto)) .bg-fx .o3 { opacity: 0.85; }
+    .bg-fx i { position: absolute; bottom: -20px; left: var(--x); width: var(--s, 4px); height: var(--s, 4px); border-radius: 50%; background: var(--cyan); box-shadow: 0 0 12px var(--cyan); opacity: 0; animation: rise var(--d, 14s) var(--dl, 0s) linear infinite; }
+    .bg-fx i.g { background: var(--gold); box-shadow: 0 0 12px var(--gold); }
+    @keyframes rise {
+      0% { transform: translate(0, 0); opacity: 0; }
+      10% { opacity: 0.85; }
+      90% { opacity: 0.5; }
+      100% { transform: translate(var(--dx, 30px), -110vh); opacity: 0; }
+    }
+    body:has(#paso-2:not(.oculto)) .bg-fx i { animation-duration: calc(var(--d, 14s) * 0.6); }
+    .bg-fx::after { content: ""; position: absolute; left: 0; right: 0; top: -160px; height: 160px; background: linear-gradient(180deg, transparent, rgba(0, 229, 255, 0.07), transparent); animation: scan 8s linear infinite; }
+    @keyframes scan { to { top: 100%; } }
+
+    /* ===== Animaciones dentro de Conferencias / Talleres ===== */
+    #paso-2 > :not(form) { animation: fadeSlide 0.5s both; }
+    #paso-2 > :nth-child(2) { animation-delay: 0.08s; }
+    #paso-2 > :nth-child(3) { animation-delay: 0.16s; }
+    #formulario > * { animation: slideInX 0.55s cubic-bezier(0.16, 1, 0.3, 1) both; }
+    #formulario > :nth-child(1) { animation-delay: 0.2s; }
+    #formulario > :nth-child(2) { animation-delay: 0.28s; }
+    #formulario > :nth-child(3) { animation-delay: 0.36s; }
+    #formulario > :nth-child(4) { animation-delay: 0.44s; }
+    #formulario > :nth-child(5) { animation-delay: 0.52s; }
+    #formulario > :nth-child(6) { animation-delay: 0.6s; }
+    #formulario > :nth-child(7) { animation-delay: 0.68s; }
+    @keyframes slideInX { from { opacity: 0; transform: translateX(-28px); } to { opacity: 1; transform: none; } }
+
+    .section-head { position: relative; }
+    .section-head::after { content: ""; position: absolute; left: 0; bottom: -1px; height: 2px; width: 0; background: var(--cyan); box-shadow: 0 0 10px var(--cyan); animation: drawLine 0.8s 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    @keyframes drawLine { to { width: 90px; } }
+    .ruta-subtag::before { content: ""; display: inline-block; width: 8px; height: 8px; margin-right: 0.55rem; background: var(--cyan); animation: dotPing 1.6s ease-out infinite; }
+    body[data-ruta="TALLERES"] .ruta-subtag::before { background: var(--gold); }
+    @keyframes dotPing { 0% { box-shadow: 0 0 0 0 var(--cyan-glow); } 100% { box-shadow: 0 0 0 10px transparent; } }
+
+    .campo-label { transition: color 0.25s ease, transform 0.25s ease; }
+    .campo:focus-within .campo-label { color: var(--cyan); transform: translateX(6px); }
+    .campo:focus-within input, .campo:focus-within select:not(:disabled) { animation: focusPulse 1.8s ease-in-out infinite; }
+    @keyframes focusPulse { 50% { box-shadow: 0 0 0 4px rgba(0, 229, 255, 0.22); } }
+
+    .btn-dia { transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease; }
+    .btn-dia:hover { transform: translateY(-3px); box-shadow: 0 8px 18px -6px var(--cyan-glow); }
+    .btn-dia.activo { animation: dayPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+    @keyframes dayPop { 0% { transform: scale(0.88); } 60% { transform: scale(1.07); } 100% { transform: scale(1); } }
+    #actividad:not(:disabled) { animation: unlock 0.8s ease; }
+    @keyframes unlock {
+      0% { border-color: var(--cyan); box-shadow: 0 0 0 0 var(--cyan-glow); transform: translateX(-6px); }
+      40% { box-shadow: 0 0 0 8px rgba(0, 229, 255, 0.25); transform: translateX(5px); }
+      100% { box-shadow: 0 0 0 0 transparent; transform: none; }
+    }
+
+    .btn-submit-icon { transition: transform 0.25s ease; }
+    .btn-submit:hover:not(:disabled) .btn-submit-icon { transform: translate(3px, -3px) rotate(45deg); }
+    .btn-submit:active:not(:disabled) { transform: scale(0.98); }
+    .btn-submit:disabled {
+      opacity: 0.85;
+      background: repeating-linear-gradient(-45deg, #00b8cc 0 12px, #00e5ff 12px 24px);
+      background-size: 34px 34px;
+      animation: stripes 0.8s linear infinite;
+    }
+    @keyframes stripes { to { background-position: 34px 0; } }
+    #formulario > #mensaje.error { animation: shake 0.45s ease; }
+    @keyframes shake { 20%, 60% { transform: translateX(-8px); } 40%, 80% { transform: translateX(8px); } }
   </style>
 </head>
 <body>
+  <div class="bg-fx" aria-hidden="true">
+    <b class="o1"></b><b class="o2"></b><b class="o3"></b>
+    <i style="--x:6%;--s:3px;--d:13s;--dl:0s;--dx:30px"></i>
+    <i class="g" style="--x:16%;--s:5px;--d:17s;--dl:2s;--dx:-40px"></i>
+    <i style="--x:27%;--s:4px;--d:12s;--dl:5s;--dx:25px"></i>
+    <i style="--x:38%;--s:3px;--d:15s;--dl:1s;--dx:-30px"></i>
+    <i class="g" style="--x:49%;--s:4px;--d:14s;--dl:7s;--dx:45px"></i>
+    <i style="--x:58%;--s:6px;--d:19s;--dl:3s;--dx:-35px"></i>
+    <i style="--x:67%;--s:3px;--d:12s;--dl:9s;--dx:30px"></i>
+    <i class="g" style="--x:76%;--s:4px;--d:16s;--dl:4s;--dx:-25px"></i>
+    <i style="--x:84%;--s:5px;--d:13s;--dl:6s;--dx:40px"></i>
+    <i style="--x:92%;--s:3px;--d:18s;--dl:8s;--dx:-30px"></i>
+  </div>
 
   <!-- Barra superior -->
   <header class="topbar">
     <div class="brand">
-      <div class="brand-logo">J<small>SC</small></div>
+      <div class="brand-logo">L<small>SC</small></div>
       <div class="brand-text">JORNADA<br>SISTEMAS</div>
     </div>
     <div class="topbar-status">REGISTRO DE ASISTENCIA <span>///</span></div>
@@ -600,31 +1048,31 @@
     <!-- VISTA USUARIO -->
     <div id="vista-usuario">
       <section class="hero" id="hero-box">
-        <div class="dark-hour-tag">WELCOME TO THE DARK HOUR</div>
+        <div class="dark-hour-tag"></div>
         <h1 class="hero-title">JORNADA DE<br>SISTEMAS</h1>
         <p class="hero-sub">Registra tu asistencia. Elige tu siguiente destino.</p>
+        <div class="hero-chips"><span>CONFERENCIAS + TALLERES</span></div>
       </section>
 
-      <!-- PASO 01: SELECCIONA TU RUTA -->
+      <!-- PASO 01: Elegir tipo -->
       <section id="paso-1" class="vista-paso">
-        <div class="section-head">
-          <span class="section-num">01</span>
-          <h2 class="section-title">SELECCIONA TU RUTA</h2>
-        </div>
-
         <div class="rutas-grid">
           <button type="button" class="ruta-card" data-ruta="CONFERENCIAS">
-            <span class="ruta-letra">A</span>
-            <h3>CONFERENCIAS</h3>
-            <p>IDEAS QUE CAMBIAN EL JUEGO</p>
-            <span class="ruta-arrow">↗</span>
+            <div class="ruta-icon">◈</div>
+            <div class="ruta-content">
+              <h3>CONFERENCIAS</h3>
+              <p>Acceso a charlas, ponencias y keynote speakers.</p>
+            </div>
+            <span class="ruta-arrow">→</span>
           </button>
 
           <button type="button" class="ruta-card" data-ruta="TALLERES">
-            <span class="ruta-letra">B</span>
-            <h3>TALLERES</h3>
-            <p>APRENDE HACIENDO</p>
-            <span class="ruta-arrow">↗</span>
+            <div class="ruta-icon">⚒</div>
+            <div class="ruta-content">
+              <h3>TALLERES</h3>
+              <p>Aprende, crea y experimenta en talleres prácticos.</p>
+            </div>
+            <span class="ruta-arrow">→</span>
           </button>
         </div>
       </section>
@@ -637,7 +1085,7 @@
           <span class="section-num">02</span>
           <h2 class="section-title">TU REGISTRO</h2>
         </div>
-        <div class="ruta-subtag" id="subtag-ruta">RUTA A // CONFERENCIAS</div>
+        <div class="ruta-subtag" id="subtag-ruta">CONFERENCIAS</div>
 
         <form id="formulario" novalidate autocomplete="off">
           <label class="campo">
@@ -655,7 +1103,7 @@
             <select id="semestre" required>
               <option value="">Selecciona tu semestre</option>
               <option value="1er semestre">1er semestre</option>
-              <option value="3r semestre">3r semestre</option>
+              <option value="3er semestre">3er semestre</option>
               <option value="5to semestre">5to semestre</option>
               <option value="7mo semestre">7mo semestre</option>
             </select>
@@ -794,9 +1242,10 @@
     document.querySelectorAll(".ruta-card").forEach((card) => {
       card.addEventListener("click", () => {
         rutaActual = card.dataset.ruta;
+        document.body.dataset.ruta = rutaActual;
         subtagRuta.textContent = rutaActual === "CONFERENCIAS"
-          ? "RUTA A // CONFERENCIAS"
-          : "RUTA B // TALLERES";
+          ? "CONFERENCIAS"
+          : "TALLERES";
 
         diaSeleccionado = "";
         botonesDia.forEach((b) => b.classList.remove("activo"));
