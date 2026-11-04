@@ -966,8 +966,7 @@
       100% { transform: translate(var(--dx, 30px), -110vh); opacity: 0; }
     }
     body:has(#paso-2:not(.oculto)) .bg-fx i { animation-duration: calc(var(--d, 14s) * 0.6); }
-    .bg-fx::after { content: ""; position: absolute; left: 0; right: 0; top: -160px; height: 160px; background: linear-gradient(180deg, transparent, rgba(0, 229, 255, 0.07), transparent); animation: scan 8s linear infinite; }
-    @keyframes scan { to { top: 100%; } }
+  
 
     /* ===== Animaciones dentro de Conferencias / Talleres ===== */
     #paso-2 > :not(form) { animation: fadeSlide 0.5s both; }
